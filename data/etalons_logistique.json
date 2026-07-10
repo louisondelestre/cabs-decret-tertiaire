@@ -1,0 +1,57 @@
+{
+  "_source": "PDF ATDL2430864A_Annexe_I (Valeurs Absolues VI), section Logistique, pp. ~145-146, ~465-590 (extraction pdftotext).",
+  "_echeance": "2030",
+  "sous_categories": {
+    "logistique_administration_bureaux": {
+      "USE_etalon": 50,
+      "Part_USE_variable": 0.77,
+      "Nb_h_ouvrees_etalon": 3120,
+      "Surf_poste_etalon": 18,
+      "T_occ_etalon": 70
+    },
+    "entrepot_temp_ambiante": {
+      "USE_etalon": 8,
+      "Part_USE_variable": 0.6,
+      "Nb_h_ouvrees_etalon": 3744,
+      "Npalettes_etalon": 165,
+      "Tcons_etalon": 12,
+      "Variation_Tcons": 4.4,
+      "HSP_etalon": 9,
+      "Variation_HSP": 5,
+      "Variation_Surf_cond": 0.6
+    },
+    "entrepot_sans_maintien": {
+      "USE_etalon": 1,
+      "Part_USE_variable": 0.63,
+      "Nb_h_ouvrees_etalon": 380,
+      "Npalettes_etalon": 17,
+      "Variation_Surf_cond": 0.06
+    }
+  },
+  "sous_categories_use_zone": {
+    "logistique_froid_negatif": {
+      "Hauteur_etalon": 1,
+      "Tcons_etalon": -18,
+      "Nb_ouverture_etalon": 0,
+      "Nb_h_ouvrees_etalon": 8760,
+      "ratio_kwh_par_ouverture": 1.5,
+      "coefficient_temperature_par_degre": 0.05
+    },
+    "logistique_temp_dirigee_1_8": {
+      "Hauteur_etalon": 1,
+      "Tcons_etalon": 3,
+      "Nb_ouverture_etalon": 0,
+      "Nb_h_ouvrees_etalon": 8760,
+      "ratio_kwh_par_ouverture": 0.8,
+      "coefficient_temperature_par_degre": 0.037
+    },
+    "logistique_temp_dirigee_12_17": {
+      "Hauteur_etalon": 1,
+      "Tcons_etalon": 15,
+      "Nb_ouverture_etalon": 0,
+      "Nb_h_ouvrees_etalon": 8760,
+      "ratio_kwh_par_ouverture": 0.3,
+      "coefficient_temperature_par_degre": 0.02
+    }
+  }
+}

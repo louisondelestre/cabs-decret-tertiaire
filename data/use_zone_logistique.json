@@ -1,0 +1,11 @@
+{
+  "_source": "PDF ATDL2430864A_Annexe_I (Valeurs Absolues VI), section Logistique, pp. ~500, ~530, ~565. 'Absence de valeur CVC - Toute la consommation est considérée sur la valeur USE'. Echéance 2030.",
+  "entries": [
+    {"sous_categorie": "logistique_froid_negatif", "zone_climatique": "H1a", "tranche_altitude": "<400", "echeance": "2030", "use_zone_kwh_m2_an": 52.8},
+    {"sous_categorie": "logistique_froid_negatif", "zone_climatique": "H2b", "tranche_altitude": "<400", "echeance": "2030", "use_zone_kwh_m2_an": 52.8},
+    {"sous_categorie": "logistique_temp_dirigee_1_8", "zone_climatique": "H1a", "tranche_altitude": "<400", "echeance": "2030", "use_zone_kwh_m2_an": 26.4},
+    {"sous_categorie": "logistique_temp_dirigee_1_8", "zone_climatique": "H2b", "tranche_altitude": "<400", "echeance": "2030", "use_zone_kwh_m2_an": 26.4},
+    {"sous_categorie": "logistique_temp_dirigee_12_17", "zone_climatique": "H1a", "tranche_altitude": "<400", "echeance": "2030", "use_zone_kwh_m2_an": 10},
+    {"sous_categorie": "logistique_temp_dirigee_12_17", "zone_climatique": "H2b", "tranche_altitude": "<400", "echeance": "2030", "use_zone_kwh_m2_an": 10}
+  ]
+}

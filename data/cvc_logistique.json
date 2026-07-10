@@ -1,0 +1,11 @@
+{
+  "_source": "PDF ATDL2430864A_Annexe_I (Valeurs Absolues VI), section Logistique, pp. ~465, ~595, ~605. Echéance 2030 uniquement.",
+  "entries": [
+    {"sous_categorie": "logistique_administration_bureaux", "zone_climatique": "H1a", "tranche_altitude": "<400", "echeance": "2030", "cvc_kwh_m2_an": 57},
+    {"sous_categorie": "logistique_administration_bureaux", "zone_climatique": "H2b", "tranche_altitude": "<400", "echeance": "2030", "cvc_kwh_m2_an": 50},
+    {"sous_categorie": "entrepot_temp_ambiante", "zone_climatique": "H1a", "tranche_altitude": "<400", "echeance": "2030", "cvc_kwh_m2_an": 21},
+    {"sous_categorie": "entrepot_temp_ambiante", "zone_climatique": "H2b", "tranche_altitude": "<400", "echeance": "2030", "cvc_kwh_m2_an": 16},
+    {"sous_categorie": "entrepot_sans_maintien", "zone_climatique": "H1a", "tranche_altitude": "<400", "echeance": "2030", "cvc_kwh_m2_an": 1},
+    {"sous_categorie": "entrepot_sans_maintien", "zone_climatique": "H2b", "tranche_altitude": "<400", "echeance": "2030", "cvc_kwh_m2_an": 1}
+  ]
+}
