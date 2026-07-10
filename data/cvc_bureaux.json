@@ -1,0 +1,6 @@
+{
+  "_source": "Arrêté du 24/11/2020, Annexe II. Case H2b/<400m/2030 vérifiée via exemple chiffré GRDF Cegibat (CVC=50 kWh/m2/an pour l'exemple bureaux 2030).",
+  "entries": [
+    {"sous_categorie": "bureaux_standards", "zone_climatique": "H2b", "tranche_altitude": "<400", "echeance": "2030", "cvc_kwh_m2_an": 50}
+  ]
+}

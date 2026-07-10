@@ -1,0 +1,12 @@
+{
+  "_source": "Arrêté du 24/11/2020 modifiant l'arrêté du 10/04/2020, Annexe II (Légifrance JORFARTI000042994835). Exemple chiffré vérifié via GRDF Cegibat (https://cegibat.grdf.fr/reglementation/energetique/decret-tertiaire-les-grands-principes).",
+  "_echeance": "2030",
+  "sous_categories": {
+    "bureaux_standards": {
+      "USE_etalon": 50,
+      "T_occ_etalon": 70,
+      "Surf_poste_etalon": 18,
+      "Nb_h_ouvrees_etalon": 3120
+    }
+  }
+}
