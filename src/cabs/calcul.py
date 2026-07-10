@@ -24,7 +24,12 @@ def calculer_cabs(site: dict, echeance: str) -> dict:
         trace.append(resultat_activite)
 
     s_totale = sum(a["s_conso"] for a in activites)
-    cabs_pondere = sum(t["cabs_unitaire_kwh_m2_an"] * (t["s_conso_m2"] / s_totale) for t in trace)
+    for t in trace:
+        poids = t["s_conso_m2"] / s_totale
+        t["poids_%"] = round(poids * 100, 2)
+        t["contribution_kwh_m2_an"] = round(t["cabs_unitaire_kwh_m2_an"] * poids, 2)
+
+    cabs_pondere = sum(t["contribution_kwh_m2_an"] for t in trace)
     seuil_absolu_kwh = cabs_pondere * s_totale
     ecart_kwh = site["conso_reelle_kwh"] - seuil_absolu_kwh
 
