@@ -5,6 +5,7 @@ Voir CONTEXT.md pour le vocabulaire du domaine.
 """
 
 from cabs import etalons
+from cabs import geo
 from cabs.formules import bureaux as formules_bureaux
 from cabs.formules import logistique as formules_logistique
 
@@ -78,12 +79,52 @@ def calculer_cabs(site: dict, echeance: str) -> dict:
     }
 
 
+def _resoudre_zone(activite: dict) -> dict:
+    """
+    Résout la zone climatique d'une activité. La saisie manuelle explicite
+    (zone_climatique, ENO-16) est toujours prioritaire. À défaut, si un
+    département est fourni, la macro-zone (H1/H2/H3) est déduite depuis la
+    source officielle — mais comme cette source ne couvre pas la sous-zone
+    exacte (H1a/H1b/H1c/H2a/H2b/H2c/H2d) requise par les tables CVC/USE, le
+    calcul bloque toujours dans ce cas et demande une confirmation manuelle
+    de la sous-zone, en indiquant la macro-zone déduite pour aider l'utilisateur.
+    """
+    if "zone_climatique" in activite:
+        return {"zone_climatique": activite["zone_climatique"]}
+
+    departement = activite.get("departement")
+    if departement is None:
+        return {"bloquant": "ni zone_climatique ni département fournis — saisie manuelle requise"}
+
+    macro_zone = geo.deduire_macro_zone(departement)
+    if macro_zone is None:
+        return {"bloquant": f"département '{departement}' non résolu dans la table officielle — saisie manuelle de la zone requise"}
+
+    if macro_zone == "H3":
+        # H3 n'est pas subdivisée (zone homogène) — pas d'ambiguïté de sous-zone à lever.
+        return {"zone_climatique": "H3"}
+
+    return {
+        "bloquant": (
+            f"macro-zone déduite du département {departement} : {macro_zone} — mais la source officielle "
+            f"ne précise pas la sous-zone exacte ({macro_zone}a/{macro_zone}b/...) requise pour le calcul ; "
+            "merci de confirmer la sous-zone climatique en saisie manuelle (zone_climatique)"
+        )
+    }
+
+
 def _calculer_activite(activite: dict, echeance: str) -> dict:
     sous_cat = activite["sous_categorie"]
     p = activite["params"]
 
     if sous_cat not in SOUS_CATEGORIES_IMPLEMENTEES:
         return {"bloquant": f"sous-catégorie '{sous_cat}' non implémentée en V1"}
+
+    resolution = _resoudre_zone(activite)
+    if "bloquant" in resolution:
+        return resolution
+    zone_climatique = resolution["zone_climatique"]
+    activite = {**activite, "zone_climatique": zone_climatique}
 
     if sous_cat in _SANS_CVC_SEPARE:
         use_zone = etalons.use_zone_lookup(sous_cat, activite["zone_climatique"], activite["tranche_altitude"], echeance)
