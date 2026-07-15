@@ -8,6 +8,7 @@ from cabs import etalons
 from cabs import geo
 from cabs.formules import bureaux as formules_bureaux
 from cabs.formules import logistique as formules_logistique
+from consommations.agregation import verifier_et_agreger
 
 SOUS_CATEGORIES_IMPLEMENTEES = {
     "bureaux_standards",
@@ -41,8 +42,38 @@ _FORMULES_AVEC_CVC = {
 }
 
 
+def _resoudre_conso_reelle(site: dict):
+    """
+    Résout la consommation réelle annuelle du site (kWh énergie finale).
+    Priorité à l'agent "analyse des consommations" si des lignes brutes sont
+    fournies (site['lignes_consommation']) ; fallback rétro-compatible sur
+    'conso_reelle_kwh' pour les sites qui la passent déjà calculée.
+    Si l'agent consommations bloque, le calcul Cabs bloque aussi — jamais
+    de valeur par défaut.
+    Note : on suppose que toutes les lignes fournies appartiennent à ce site
+    (un seul "zone" au sens de l'agent consommations = ce site) ; l'agrégat
+    est sommé sur toutes les zones retournées par prudence si plusieurs
+    apparaissent.
+    """
+    if "lignes_consommation" in site:
+        lignes = site["lignes_consommation"]
+        mois_attendus = sorted({ligne.mois for ligne in lignes})
+        resultat = verifier_et_agreger(lignes, mois_attendus)
+        if resultat["statut"] == "BLOQUÉ":
+            return None, {
+                "statut": "BLOQUÉ",
+                "raisons": [f"agent consommations: {r}" for r in resultat["raisons"]],
+            }
+        return sum(resultat["agregat_annuel_kwh_par_site"].values()), None
+    return site["conso_reelle_kwh"], None
+
+
 def calculer_cabs(site: dict, echeance: str) -> dict:
     activites = site["activites"]
+
+    conso_reelle_kwh, blocage_conso = _resoudre_conso_reelle(site)
+    if blocage_conso is not None:
+        return blocage_conso
 
     trace = []
     for activite in activites:
@@ -62,14 +93,14 @@ def calculer_cabs(site: dict, echeance: str) -> dict:
 
     cabs_pondere = sum(t["contribution_kwh_m2_an"] for t in trace)
     seuil_absolu_kwh = cabs_pondere * s_totale
-    ecart_kwh = site["conso_reelle_kwh"] - seuil_absolu_kwh
+    ecart_kwh = conso_reelle_kwh - seuil_absolu_kwh
 
     return {
         "statut": "CALCULÉ",
         "trace_par_activite": trace,
         "cabs_pondere_kwh_m2_an": round(cabs_pondere, 2),
         "seuil_absolu_kwh_an": round(seuil_absolu_kwh, 0),
-        "conso_reelle_kwh_an": site["conso_reelle_kwh"],
+        "conso_reelle_kwh_an": conso_reelle_kwh,
         "ecart_kwh": round(ecart_kwh, 0),
         "statut_prudent": (
             "ÉCART — indicatif, non opposable, hors validation par un auditeur qualifié — "

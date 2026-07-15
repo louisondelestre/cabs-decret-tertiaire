@@ -1,0 +1,4 @@
+# Dépendance locale : agent "analyse des consommations" (repo consommations-decret-tertiaire)
+# Installé en editable pendant le développement :
+#   pip install -e ../consommations-decret-tertiaire
+-e ../consommations-decret-tertiaire
